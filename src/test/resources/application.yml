@@ -1,0 +1,4 @@
+## YAML Template.
+---
+spring.cloud.config.enabled: false
+spring.application.name:  ADMINISTRATION-SERVICE-TEST

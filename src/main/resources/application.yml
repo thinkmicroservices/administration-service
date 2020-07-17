@@ -1,0 +1,29 @@
+jwt.secret: 7h1nkm1cr053rv1c35
+controller.cors.origin: http://localhost:4200
+
+server:
+  port: 8080
+  
+info:
+  app:
+    name: Administration Service
+    description: Provides an administrative endpoint to the application
+    version: 1.0.0
+    
+    
+management:
+  endpoints:
+    metrics:
+      sensitive: false
+    web:
+      exposure:
+        include: info,health,prometheus
+        
+management.metrics.tags.application: ${spring.application.name}
+  
+ 
+
+ 
+  
+          
+  
