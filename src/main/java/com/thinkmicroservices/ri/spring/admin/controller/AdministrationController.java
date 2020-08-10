@@ -67,16 +67,16 @@ public class AdministrationController {
             @ApiParam("<Optional> Regex to filter (applied to first,middle and last name fields)- default to all /./") @RequestParam(defaultValue = ".") String like, HttpServletRequest httpServletRequest) {
         log.debug("get user profiles");
 
-        JWT jwt = jwtService.getJWT(httpServletRequest);
-        if (jwt == null) {
-            return new ResponseEntity<RestResponsePage<Profile>>(HttpStatus.UNAUTHORIZED);
-        }
-        if (jwt.hasRole(JWT.ROLE_ADMIN)) {
+       // JWT jwt = jwtService.getJWT(httpServletRequest);
+       // if (jwt == null) {
+       //     return new ResponseEntity<RestResponsePage<Profile>>(HttpStatus.UNAUTHORIZED);
+       // }
+      //  if (jwt.hasRole(JWT.ROLE_ADMIN)) {
             RestResponsePage<Profile> userProfiles = userAdminService.findUserProfilesByPage(pageNo, pageSize, sortBy, like, httpServletRequest.getHeader("Authorization"));
 
             return new ResponseEntity<>(userProfiles, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+      //  }
+       // return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @RequestMapping(value = "/setUserActiveStatus/{accountId}", method = RequestMethod.POST)
@@ -89,16 +89,16 @@ public class AdministrationController {
 
         String authHeader = httpServletRequest.getHeader("Authorization");
         log.debug("get user profiles");
-        JWT jwt = jwtService.getJWT(httpServletRequest);
+       // JWT jwt = jwtService.getJWT(httpServletRequest);
 
-        if (jwt == null) {
-            return new ResponseEntity<RestResponsePage<Profile>>(HttpStatus.UNAUTHORIZED);
-        }
+      //  if (jwt == null) {
+         //   return new ResponseEntity<RestResponsePage<Profile>>(HttpStatus.UNAUTHORIZED);
+       // }
 
-        if (jwt.hasRole(JWT.ROLE_ADMIN)) {
+      //  if (jwt.hasRole(JWT.ROLE_ADMIN)) {
             return ResponseEntity.ok(this.userAdminService.setUserActiveStatus(accountId, activeStatus, authHeader));
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+       // }
+       // return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @RequestMapping(value = "/getServiceInstances", method = RequestMethod.GET)
@@ -111,6 +111,9 @@ public class AdministrationController {
 
     @PostMapping(path = "/getTelemetryByAccountId")
     @ResponseBody
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "Authorization token",
+                required = true, dataType = "string", paramType = "header")})
     public ResponseEntity<PagedTelemetryEventResponse<ClientTelemetryEvent>  > findByAccountId(@RequestBody PagedTelemetryEventRequest request, HttpServletRequest httpServletRequest) {
 
         //JWT jwt = jwtService.getJWT(httpServletRequest);
